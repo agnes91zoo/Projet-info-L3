@@ -4,16 +4,19 @@ df = pd.read_csv("données/Top Movies dataset.csv")
 # print(df.columns)
 # print(df.head(5))
 
+
 #nettoyage du csv retirer les colonnes inutiles
 
 df = df.drop(columns=["Title","Overview","Popularity","Vote_Count","Poster_Url","Working URL"])
 # print(df.head(5))
+
 
 #suppressions des colonnes avec des cases vides 
 
 # print(df.isna().sum())
 df = df.dropna()
 # print(df.isna().sum())
+
 
 #suppressions des doublons 
 
@@ -30,12 +33,18 @@ df["Month"] = df["Release_Date"].dt.month
 df = df.drop(columns=["Release_Date"])
 # print(df.head(5))
 
-#Il y a plusieurs genre listé dans la catégorie genre donc chaque genre attribué devient une colonne de notre tableau
 
-print(df["Genre"].head(10).tolist())
+# Il y a plusieurs genre listé dans la catégorie genre donc chaque genre attribué devient une colonne de notre tableau
+
 dummies = df["Genre"].str.replace(", ", ",", regex=False).str.get_dummies(sep=",") #str.replace c'est parce que des fois les virgules 
 #sont pas aux memes endroits et ça crée des colonnes en double pour le meme genre
 df = pd.concat([df, dummies], axis=1)
 df = df.drop(columns=["Genre"])
-print(df.head(5))
-print(df.columns)
+#print(df.head(5))
+#print(df.columns)
+
+
+# On convertie les langues de films qui sont des chaines de caractères en numéro 
+
+langue = df["Original_Language"].str.get_commies(sep=",") 
+print(langue)
